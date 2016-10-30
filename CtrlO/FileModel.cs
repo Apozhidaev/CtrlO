@@ -15,7 +15,7 @@ namespace CtrlO
         public FileModel(string file, UrlSate sate)
         {
             _sate = sate;
-            Name = Path.GetFileName(file);
+            Name = Path.GetFileNameWithoutExtension(file);
             try
             {
                 Urls = File.ReadAllLines(file).Select((item, index) => new UrlModel

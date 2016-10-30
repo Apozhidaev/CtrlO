@@ -23,7 +23,7 @@ namespace CtrlO
                 var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt");
                 var urlSateMap = files.ToDictionary(key => key, file =>
                 {
-                    var name = Path.GetFileName(file);
+                    var name = Path.GetFileNameWithoutExtension(file);
                     return State.Urls.SingleOrDefault(url => url.File == name) ?? new UrlSate {File = name};
                 });
                 Files = files.Select(file => new FileModel(file, urlSateMap[file])).ToArray();

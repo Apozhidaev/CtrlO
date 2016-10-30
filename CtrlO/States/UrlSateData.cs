@@ -4,7 +4,7 @@ namespace CtrlO.States
 {
     public class UrlSateData
     {
-        [XmlElement("file")]
+        [XmlAttribute("file")]
         public string File { get; set; }
 
         [XmlElement("value")]
