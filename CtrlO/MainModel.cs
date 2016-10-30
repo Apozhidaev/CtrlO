@@ -6,40 +6,51 @@ using System.Windows;
 using System.Windows.Input;
 using CtrlO.Mvvm;
 using CtrlO.Mvvm.Commands;
+using CtrlO.States;
 
 namespace CtrlO
 {
     public class MainModel : BindableBase
     {
         private bool _selectNext = true;
-        private OpenModel _selectedOpen;
+        private FileModel _selectedFile;
 
-        public MainModel()
+        public MainModel(State state)
         {
+            State = state;
             try
             {
-                Opens = File.ReadAllLines("open.txt").Select((item, index) => new OpenModel
+                var files = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt");
+                var urlSateMap = files.ToDictionary(key => key, file =>
                 {
-                    Index = index + 1,
-                    Url = item
-                }).ToArray();
+                    var name = Path.GetFileName(file);
+                    return State.Urls.SingleOrDefault(url => url.File == name) ?? new UrlSate {File = name};
+                });
+                Files = files.Select(file => new FileModel(file, urlSateMap[file])).ToArray();
+                State.Urls = urlSateMap.Values.OrderBy(us => us.File).ToArray();
             }
             catch (Exception e)
             {
-                Opens = new OpenModel[0];
                 MessageBox.Show(e.GetBaseException().Message);
+                Application.Current.Shutdown();
             }
-           
-            SelectedOpen = Opens.FirstOrDefault();
+
+            SelectedFile = Files.SingleOrDefault(file => file.Name == State.File) ?? Files.FirstOrDefault();
             OpenCommand = new DelegateCommand(Open, CanOpen);
         }
 
-        public OpenModel[] Opens { get; set; }
+        public State State { get; }
 
-        public OpenModel SelectedOpen
+        public FileModel[] Files { get; }
+
+        public FileModel SelectedFile
         {
-            get { return _selectedOpen; }
-            set { SetProperty(ref _selectedOpen, value); }
+            get { return _selectedFile; }
+            set
+            {
+                SetProperty(ref _selectedFile, value);
+                State.File = value?.Name;
+            }
         }
 
         public bool SelectNext
@@ -54,7 +65,7 @@ namespace CtrlO
         {
             try
             {
-                Process.Start(SelectedOpen.Url);
+                Process.Start(SelectedFile.SelectedUrl.Value);
             }
             catch (Exception e)
             {
@@ -63,13 +74,13 @@ namespace CtrlO
             
             if (SelectNext)
             {
-                SelectedOpen = SelectedOpen.Index < Opens.Length ? Opens[SelectedOpen.Index] : null;
+                SelectedFile.SelectNext();
             }
         }
 
         private bool CanOpen()
         {
-            return SelectedOpen != null;
+            return SelectedFile?.SelectedUrl != null;
         }
     }
 }

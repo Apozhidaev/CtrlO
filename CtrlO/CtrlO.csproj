@@ -58,6 +58,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="FileModel.cs" />
+    <Compile Include="NuGet.Modules\XmlHelper.cs" />
+    <Compile Include="States\UrlSate.cs" />
+    <Compile Include="States\UrlSateData.cs" />
+    <Compile Include="States\State.cs" />
+    <Compile Include="States\StateData.cs" />
+    <Compile Include="States\StateExtentions.cs" />
+    <Compile Include="States\StateProvider.cs" />
     <Page Include="Assets\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -104,7 +112,7 @@
     <Compile Include="Mvvm\PropertySupport.cs" />
     <Compile Include="Mvvm\ViewModelLocationProvider.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
-    <Compile Include="OpenModel.cs" />
+    <Compile Include="UrlModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -122,6 +130,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

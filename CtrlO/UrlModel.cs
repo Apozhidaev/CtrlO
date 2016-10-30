@@ -1,13 +1,13 @@
 ﻿namespace CtrlO
 {
-    public class OpenModel
+    public class UrlModel
     {
         public int Index { get; set; }
-        public string Url { get; set; }
+        public string Value { get; set; }
 
         public override string ToString()
         {
-            return $"{Index}. {Url}";
+            return $"{Index}. {Value}";
         }
     }
 }

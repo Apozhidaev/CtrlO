@@ -23,7 +23,6 @@ namespace CtrlO
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainModel();
         }
     }
 }

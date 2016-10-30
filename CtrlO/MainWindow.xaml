@@ -7,18 +7,13 @@
         mc:Ignorable="d"
         Title="Ctrl+O"  Background="#FF1B1E23" Icon="favicon.ico" Height="350" Width="525">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Label Grid.Row="0" Grid.Column="0" Content="No." HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center"/>
-        <Label Grid.Row="0" Grid.Column="0" Content="{Binding SelectedOpen.Index}" HorizontalAlignment="Left" Margin="40,0" VerticalAlignment="Center"/>
-        <Button Grid.Row="0" Content="Open" HorizontalAlignment="Right" Margin="10,0" VerticalAlignment="Center" Width="75" Grid.Column="1" Command="{Binding OpenCommand}"/>
-        <CheckBox Content="Select Next" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Margin="0,14,100,10" VerticalAlignment="Top" IsChecked="{Binding SelectNext}"/>
-        <ListBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" ItemsSource="{Binding Opens}" SelectedItem="{Binding SelectedOpen}"/>
+        <ComboBox Grid.Row="0" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" Width="150" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"/>
+        <Button Grid.Row="0" Content="Open" HorizontalAlignment="Right" Margin="10,0" VerticalAlignment="Center" Width="75" Command="{Binding OpenCommand}"/>
+        <CheckBox Content="Select Next" Grid.Row="0" HorizontalAlignment="Right" Margin="0,14,100,10" VerticalAlignment="Top" IsChecked="{Binding SelectNext}"/>
+        <ListBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SelectedFile.Urls}" SelectedItem="{Binding SelectedFile.SelectedUrl}"/>
     </Grid>
 </Window>
