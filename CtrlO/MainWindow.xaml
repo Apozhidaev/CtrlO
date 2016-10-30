@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CtrlO"
         mc:Ignorable="d"
-        Title="Ctrl+O"  Background="#FF1B1E23" Icon="favicon.ico" Height="350" Width="525">
+        Title="Ctrl+O" MinWidth="400" MinHeight="200" Background="#FF1B1E23" Icon="favicon.ico" Height="350" Width="525">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ComboBox Grid.Row="0" HorizontalAlignment="Left" Margin="10,0" VerticalAlignment="Center" Width="150" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"/>
+        <ComboBox Grid.Row="0" HorizontalAlignment="Stretch" Margin="10,0,280,0" VerticalAlignment="Center" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"/>
         <Button Grid.Row="0" Content="Open" HorizontalAlignment="Right" Margin="10,0" VerticalAlignment="Center" Width="75" Command="{Binding OpenCommand}"/>
         <CheckBox Content="Select Next" Grid.Row="0" HorizontalAlignment="Right" Margin="0,14,100,10" VerticalAlignment="Top" IsChecked="{Binding SelectNext}"/>
         <ListBox HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SelectedFile.Urls}" SelectedItem="{Binding SelectedFile.SelectedUrl}"/>
