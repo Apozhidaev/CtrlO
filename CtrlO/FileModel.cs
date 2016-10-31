@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -18,10 +19,17 @@ namespace CtrlO
             Name = Path.GetFileNameWithoutExtension(file);
             try
             {
-                Urls = File.ReadAllLines(file).Select((item, index) => new UrlModel
+                var hashSet = new HashSet<string>();
+                Urls = File.ReadAllLines(file).Select((item, index) =>
                 {
-                    Index = index + 1,
-                    Value = item
+                    var model = new UrlModel
+                    {
+                        Index = index + 1,
+                        Value = item,
+                        Bad = hashSet.Contains(item)
+                    };
+                    hashSet.Add(item);
+                    return model;
                 }).ToArray();
             }
             catch (Exception e)
