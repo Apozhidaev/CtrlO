@@ -4,6 +4,8 @@ namespace CtrlO.States
 {
     public class State
     {
+        public bool Auto { get; set; }
+
         public string File { get; set; }
 
         public UrlSate[] Urls { get; set; }
@@ -12,6 +14,7 @@ namespace CtrlO.States
         {
             return new State
             {
+                Auto = Auto,
                 File = File,
                 Urls = Urls.Select(url => url.Clone()).ToArray()
             };
@@ -19,7 +22,8 @@ namespace CtrlO.States
 
         public bool HasDiff(State state)
         {
-            return File != state.File 
+            return Auto != state.Auto
+                || File != state.File
                 || Urls.Length != state.Urls.Length
                 || Urls.Where((t, i) => t.HasDiff(state.Urls[i])).Any();
         }

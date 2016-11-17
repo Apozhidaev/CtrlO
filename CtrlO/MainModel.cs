@@ -73,6 +73,7 @@ namespace CtrlO
             set
             {
                 SetProperty(ref _auto, value);
+                State.Auto = value;
                 ActionName = value ? "Play" : "Next";
             }
         }

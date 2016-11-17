@@ -8,6 +8,7 @@ namespace CtrlO.States
         {
             return new State
             {
+                Auto = data.Auto,
                 File = data.File,
                 Urls = data.Urls.Select(url => url.ToEntity()).ToArray()
             };
@@ -17,6 +18,7 @@ namespace CtrlO.States
         {
             return new StateData
             {
+                Auto = state.Auto,
                 File = state.File,
                 Urls = state.Urls.Select(url => url.ToData()).ToArray()
             };
@@ -44,6 +46,7 @@ namespace CtrlO.States
         {
             return new StateData
             {
+                Auto = true,
                 File = "",
                 Urls = new UrlSateData[0]
             };

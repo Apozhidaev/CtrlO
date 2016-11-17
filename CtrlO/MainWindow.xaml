@@ -11,6 +11,13 @@
         <DataTemplate x:Key="ListItemDataTemplate">
             <ContentControl Cursor="Hand" local:UIElementCorrector.DoubleClickCommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                             local:UIElementCorrector.DoubleClickCommand="{Binding OpenCommand}">
+                <ContentControl.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
+                        <Separator/>
+                        <MenuItem Header="Remove" Command="{Binding RemoveCommand}"/>
+                    </ContextMenu>
+                </ContentControl.ContextMenu>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock HorizontalAlignment="Stretch" Text="{Binding Index}" VerticalAlignment="Stretch"/>
                     <TextBlock HorizontalAlignment="Stretch" Text=". " VerticalAlignment="Stretch"/>
@@ -47,6 +54,6 @@
                  ItemTemplate="{DynamicResource ListItemDataTemplate}"
                  IsSynchronizedWithCurrentItem="True"
                  SelectionChanged="Selector_OnSelectionChanged"/>
-        
+
     </Grid>
 </Window>
