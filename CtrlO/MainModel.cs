@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CtrlO.Mvvm;
@@ -12,8 +14,20 @@ namespace CtrlO
 {
     public class MainModel : BindableBase
     {
-        private bool _selectNext = true;
+        private bool _auto = true;
+        private bool _playing = false;
+        private string _actionName = "Play";
         private FileModel _selectedFile;
+
+        private static readonly string TempChrome = Path.Combine(Environment.CurrentDirectory, @"Temp\Chrome");
+
+        static MainModel()
+        {
+            if (!Directory.Exists(TempChrome))
+            {
+                Directory.CreateDirectory(TempChrome);
+            }
+        }
 
         public MainModel(State state)
         {
@@ -26,7 +40,7 @@ namespace CtrlO
                     var name = Path.GetFileNameWithoutExtension(file);
                     return State.Urls.SingleOrDefault(url => url.File == name) ?? new UrlSate {File = name};
                 });
-                Files = files.Select(file => new FileModel(file, urlSateMap[file])).ToArray();
+                Files = files.Select(file => new FileModel(this, file, urlSateMap[file])).ToArray();
                 State.Urls = urlSateMap.Values.OrderBy(us => us.File).ToArray();
             }
             catch (Exception e)
@@ -36,7 +50,7 @@ namespace CtrlO
             }
 
             SelectedFile = Files.SingleOrDefault(file => file.Name == State.File) ?? Files.FirstOrDefault();
-            OpenCommand = new DelegateCommand(Open, CanOpen);
+            NextCommand = new DelegateCommand(Next, CanOpen);
         }
 
         public State State { get; }
@@ -53,29 +67,98 @@ namespace CtrlO
             }
         }
 
-        public bool SelectNext
+        public bool Auto
         {
-            get { return _selectNext; }
-            set { SetProperty(ref _selectNext, value); }
+            get { return _auto; }
+            set
+            {
+                SetProperty(ref _auto, value);
+                ActionName = value ? "Play" : "Next";
+            }
         }
 
-        public ICommand OpenCommand { get; }
-
-        private void Open()
+        public bool Playing
         {
-            try
+            get { return _playing; }
+            set
             {
-                Process.Start(SelectedFile.SelectedUrl.Value);
+                SetProperty(ref _playing, value);
+                ActionName = value ? "Stop" : "Play";
             }
-            catch (Exception e)
+        }
+
+        public string ActionName
+        {
+            get { return _actionName; }
+            set { SetProperty(ref _actionName, value); }
+        }
+
+        public ICommand NextCommand { get; }
+
+        private async void Next()
+        {
+            if (!Auto)
             {
-                MessageBox.Show(e.GetBaseException().Message);
+                try
+                {
+                    var url = SelectedFile.SelectedUrl;
+                    SelectedFile.SelectNext();
+                    await Run(url);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show(e.GetBaseException().Message);
+                }
             }
-            
-            if (SelectNext)
+            else if(!Playing)
             {
-                SelectedFile.SelectNext();
+                Play();
             }
+            else
+            {
+                Playing = false;
+            }
+        }
+
+        private async void Play()
+        {
+            Playing = true;
+            while (CanOpen())
+            {
+                var wait = await Run(SelectedFile.SelectedUrl);
+                if (Playing)
+                {
+                    SelectedFile.SelectNext();
+                    if (wait < 100) break;
+                }
+                else
+                {
+                    return;
+                }
+                
+            }
+            Playing = false;
+        }
+
+        private Task<int> Run(UrlModel model)
+        {
+            return Task.Run(() =>
+            {
+                //var process = Process.Start(model.Value);
+
+                var process = Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+                    $"--user-data-dir=\"{TempChrome}\"  {model.Value}");
+                var sw = new Stopwatch();
+                sw.Start();
+                process?.WaitForExit();
+                sw.Stop();
+                return sw.Elapsed.Milliseconds;
+            });
+        }
+
+        public async void Open()
+        {
+            await Run(SelectedFile.SelectedUrl);
         }
 
         private bool CanOpen()

@@ -59,6 +59,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="FileModel.cs" />
+    <Compile Include="InvertBoolConverter.cs" />
     <Compile Include="NuGet.Modules\XmlHelper.cs" />
     <Compile Include="States\UrlSate.cs" />
     <Compile Include="States\UrlSateData.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="Mvvm\PropertySupport.cs" />
     <Compile Include="Mvvm\ViewModelLocationProvider.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
+    <Compile Include="UIElementCorrector.cs" />
     <Compile Include="UrlModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
