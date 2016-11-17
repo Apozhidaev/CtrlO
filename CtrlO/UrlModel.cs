@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows;
+using System.Windows.Input;
 using CtrlO.Mvvm.Commands;
 
 namespace CtrlO
@@ -8,6 +9,7 @@ namespace CtrlO
         public UrlModel(FileModel parent)
         {
             OpenCommand = new DelegateCommand(parent.Parent.Open);
+            CopyCommand = new DelegateCommand(Copy);
             RemoveCommand = new DelegateCommand(parent.Remove);
         }
 
@@ -15,7 +17,13 @@ namespace CtrlO
         public string Value { get; set; }
 
         public ICommand OpenCommand { get; }
+        public ICommand CopyCommand { get; }
         public ICommand RemoveCommand { get; }
+
+        private void Copy()
+        {
+            Clipboard.SetText(Value);
+        }
 
         public override string ToString()
         {

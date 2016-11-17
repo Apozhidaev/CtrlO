@@ -130,7 +130,7 @@ namespace CtrlO
                 if (Playing)
                 {
                     SelectedFile.SelectNext();
-                    if (wait < 100) break;
+                    if (!wait) break;
                 }
                 else
                 {
@@ -141,19 +141,15 @@ namespace CtrlO
             Playing = false;
         }
 
-        private Task<int> Run(UrlModel model)
+        private Task<bool> Run(UrlModel model)
         {
             return Task.Run(() =>
             {
-                //var process = Process.Start(model.Value);
-
                 var process = Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
                     $"--user-data-dir=\"{TempChrome}\"  {model.Value}");
-                var sw = new Stopwatch();
-                sw.Start();
-                process?.WaitForExit();
-                sw.Stop();
-                return sw.Elapsed.Milliseconds;
+                if (process == null) return false;
+                process.WaitForExit();
+                return process.TotalProcessorTime > TimeSpan.FromMilliseconds(500);
             });
         }
 

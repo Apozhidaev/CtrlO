@@ -13,6 +13,7 @@
                             local:UIElementCorrector.DoubleClickCommand="{Binding OpenCommand}">
                 <ContentControl.ContextMenu>
                     <ContextMenu>
+                        <MenuItem Header="Copy" Command="{Binding CopyCommand}"/>
                         <MenuItem Header="Open" Command="{Binding OpenCommand}"/>
                         <Separator/>
                         <MenuItem Header="Remove" Command="{Binding RemoveCommand}"/>
