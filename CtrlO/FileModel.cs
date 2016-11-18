@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using CtrlO.Mvvm;
@@ -30,7 +31,7 @@ namespace CtrlO
             {
                 Urls = new ObservableCollection<UrlModel>(File.ReadAllLines(file)
                     .Distinct()
-                    .Where(line => !string.IsNullOrEmpty(line))
+                    .Where(line => !string.IsNullOrEmpty(line) && !Regex.IsMatch(line, @"^\s*#"))
                     .Select((item, index) =>
                 {
                     var model = new UrlModel(this)
