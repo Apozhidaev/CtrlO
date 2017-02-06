@@ -1,13 +1,10 @@
 # block 1
 
-https://vk.com/alexander.pozhidaev
-https://www.youtube.com/?gl=RU
-http://hospital.enode.org/
-http://fanserials.tv/
+https://fb.com/
+https://youtube.com/
+http://google.com/
 
 # block 2
 
-https://vk.com/alexander.pozhidaev
-https://www.youtube.com/?gl=RU
-http://hospital.enode.org/
-http://fanserials.tv/
+https://fb.com/
+https://github.com/

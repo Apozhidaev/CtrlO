@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using CtrlO.Mvvm;
@@ -14,20 +12,7 @@ namespace CtrlO
 {
     public class MainModel : BindableBase
     {
-        private bool _auto = true;
-        private bool _playing = false;
-        private string _actionName = "Play";
         private FileModel _selectedFile;
-
-        private static readonly string TempChrome = Path.Combine(Environment.CurrentDirectory, @"Temp\Chrome");
-
-        static MainModel()
-        {
-            if (!Directory.Exists(TempChrome))
-            {
-                Directory.CreateDirectory(TempChrome);
-            }
-        }
 
         public MainModel(State state)
         {
@@ -67,95 +52,24 @@ namespace CtrlO
             }
         }
 
-        public bool Auto
-        {
-            get { return _auto; }
-            set
-            {
-                SetProperty(ref _auto, value);
-                State.Auto = value;
-                ActionName = value ? "Play" : "Next";
-            }
-        }
-
-        public bool Playing
-        {
-            get { return _playing; }
-            set
-            {
-                SetProperty(ref _playing, value);
-                ActionName = value ? "Stop" : "Play";
-            }
-        }
-
-        public string ActionName
-        {
-            get { return _actionName; }
-            set { SetProperty(ref _actionName, value); }
-        }
-
         public ICommand NextCommand { get; }
 
-        private async void Next()
+        private void Next()
         {
-            if (!Auto)
+            try
             {
-                try
-                {
-                    var url = SelectedFile.SelectedUrl;
-                    SelectedFile.SelectNext();
-                    await Run(url);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(e.GetBaseException().Message);
-                }
+                Open();
+                SelectedFile.SelectNext();
             }
-            else if(!Playing)
+            catch (Exception e)
             {
-                Play();
-            }
-            else
-            {
-                Playing = false;
+                MessageBox.Show(e.GetBaseException().Message);
             }
         }
 
-        private async void Play()
+        public void Open()
         {
-            Playing = true;
-            while (CanOpen())
-            {
-                var wait = await Run(SelectedFile.SelectedUrl);
-                if (Playing)
-                {
-                    SelectedFile.SelectNext();
-                    if (!wait) break;
-                }
-                else
-                {
-                    return;
-                }
-                
-            }
-            Playing = false;
-        }
-
-        private Task<bool> Run(UrlModel model)
-        {
-            return Task.Run(() =>
-            {
-                var process = Process.Start(@"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
-                    $"--user-data-dir=\"{TempChrome}\"  {model.Value}");
-                if (process == null) return false;
-                process.WaitForExit();
-                return process.TotalProcessorTime > TimeSpan.FromMilliseconds(500);
-            });
-        }
-
-        public async void Open()
-        {
-            await Run(SelectedFile.SelectedUrl);
+            Process.Start(SelectedFile.SelectedUrl.Value);
         }
 
         private bool CanOpen()
