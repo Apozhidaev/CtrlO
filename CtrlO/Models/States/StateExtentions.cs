@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace CtrlO.States
+namespace CtrlO.Models.States
 {
     internal static class StateExtentions
     {

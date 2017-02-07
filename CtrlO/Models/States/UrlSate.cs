@@ -1,4 +1,4 @@
-﻿namespace CtrlO.States
+﻿namespace CtrlO.Models.States
 {
     public class UrlSate
     {

@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using NuGet.Modules;
 
-namespace CtrlO.States
+namespace CtrlO.Models.States
 {
     internal class StateProvider
     {

@@ -58,14 +58,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="FileModel.cs" />
+    <Compile Include="ViewModels\FileModel.cs" />
     <Compile Include="NuGet.Modules\XmlHelper.cs" />
-    <Compile Include="States\UrlSate.cs" />
-    <Compile Include="States\UrlSateData.cs" />
-    <Compile Include="States\State.cs" />
-    <Compile Include="States\StateData.cs" />
-    <Compile Include="States\StateExtentions.cs" />
-    <Compile Include="States\StateProvider.cs" />
+    <Compile Include="Models\States\UrlSate.cs" />
+    <Compile Include="Models\States\UrlSateData.cs" />
+    <Compile Include="Models\States\State.cs" />
+    <Compile Include="Models\States\StateData.cs" />
+    <Compile Include="Models\States\StateExtentions.cs" />
+    <Compile Include="Models\States\StateProvider.cs" />
     <Page Include="Assets\Styles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -86,7 +86,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -94,8 +94,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainModel.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="ViewModels\MainModel.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -113,7 +113,7 @@
     <Compile Include="Mvvm\ViewModelLocationProvider.cs" />
     <Compile Include="Mvvm\ViewModelLocator.cs" />
     <Compile Include="UIElementCorrector.cs" />
-    <Compile Include="UrlModel.cs" />
+    <Compile Include="ViewModels\UrlModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -131,7 +131,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -149,6 +148,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

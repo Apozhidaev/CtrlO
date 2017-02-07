@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace CtrlO.States
+namespace CtrlO.Models.States
 {
     [XmlRoot("state")]
     public class StateData

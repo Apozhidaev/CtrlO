@@ -6,11 +6,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using CtrlO.Models.States;
 using CtrlO.Mvvm;
 using CtrlO.Mvvm.Commands;
-using CtrlO.States;
 
-namespace CtrlO
+namespace CtrlO.ViewModels
 {
     public class FileModel : BindableBase
     {

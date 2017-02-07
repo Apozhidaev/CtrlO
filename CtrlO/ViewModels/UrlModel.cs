@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using CtrlO.Mvvm.Commands;
 
-namespace CtrlO
+namespace CtrlO.ViewModels
 {
     public class UrlModel
     {
