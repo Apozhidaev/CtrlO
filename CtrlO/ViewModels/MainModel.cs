@@ -56,20 +56,21 @@ namespace CtrlO.ViewModels
 
         private void Next()
         {
+            Open();
+            SelectedFile.SelectNext();
+        }
+
+        public void Open()
+        {
             try
             {
-                Open();
-                SelectedFile.SelectNext();
+                Process.Start(SelectedFile.SelectedUrl.Value);
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.GetBaseException().Message);
             }
-        }
 
-        public void Open()
-        {
-            Process.Start(SelectedFile.SelectedUrl.Value);
         }
 
         private bool CanOpen()
